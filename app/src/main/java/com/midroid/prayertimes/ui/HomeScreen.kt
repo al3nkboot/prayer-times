@@ -31,20 +31,31 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.midroid.prayertimes.R
 import com.midroid.prayertimes.data.AppSettings
+import com.midroid.prayertimes.data.QuranPrefs
+import com.midroid.prayertimes.data.QuranRepo
 import com.midroid.prayertimes.domain.*
 import java.time.Duration
 import java.time.ZonedDateTime
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 data class Perms(val notifications: Boolean, val exact: Boolean, val dnd: Boolean = true)
 
 @Composable
-fun HomeScreen(s: AppSettings, now: ZonedDateTime, perms: Perms, onCity: () -> Unit, onSettings: () -> Unit, onExact: () -> Unit, onGrantNotif: () -> Unit, onQibla: () -> Unit = {}, onAdhkar: () -> Unit = {}, onTasbih: () -> Unit = {}, onDuas: () -> Unit = {}, onAbout: () -> Unit = {}) {
+fun HomeScreen(s: AppSettings, now: ZonedDateTime, perms: Perms, onCity: () -> Unit, onSettings: () -> Unit, onExact: () -> Unit, onGrantNotif: () -> Unit, onQibla: () -> Unit = {}, onAdhkar: () -> Unit = {}, onTasbih: () -> Unit = {}, onDuas: () -> Unit = {}, onAbout: () -> Unit = {}, onQuran: (Int, Int) -> Unit = { _, _ -> }) {
     val st = remember(s, now.withSecond(0).withNano(0)) { PrayerEngine.now(s.place, now, s.calc) }
     val remaining = Duration.between(now, st.nextAt)
     val ar = isArabic()
     val local = now.withZoneSameInstant(s.place.zoneId)
     val nextFajr = remember(s, st.day.date) { PrayerEngine.day(s.place, st.day.date.plusDays(1), s.calc)[Prayer.FAJR] }
     val night = remember(st.day, nextFajr) { NightTimesCalculator.calculate(st.day[Prayer.MAGHRIB], nextFajr) }
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val quranPrefs = remember { QuranPrefs(context) }
+    var lastRead by remember { mutableStateOf(quranPrefs.lastRead()) }
+    var quranData by remember { mutableStateOf<com.midroid.prayertimes.data.QuranData?>(null) }
+    LaunchedEffect(lastRead) {
+        quranData = if (lastRead == null) null else withContext(Dispatchers.IO) { runCatching { QuranRepo.load(context) }.getOrNull() }
+    }
     Column(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background).systemBarsPadding().verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
         Row(Modifier.fillMaxWidth().padding(top = 10.dp, bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
             Row(Modifier.weight(1f).clip(RoundedCornerShape(18.dp)).clickable(onClick = onCity).padding(8.dp).testTag("city"), verticalAlignment = Alignment.CenterVertically) {
@@ -86,11 +97,26 @@ fun HomeScreen(s: AppSettings, now: ZonedDateTime, perms: Perms, onCity: () -> U
         Spacer(Modifier.height(14.dp))
         Text(stringResource(R.string.home_sections), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(8.dp))
+        if (lastRead != null) {
+            val position = lastRead!!
+            val name = quranData?.surah(position.surah)?.nameAr.orEmpty()
+            Card(Modifier.fillMaxWidth().clickable { onQuran(position.surah, position.ayah) }.testTag("continue_reading")) {
+                Row(Modifier.fillMaxWidth().padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Icon(AppIcons.Quran, null, tint = MaterialTheme.colorScheme.primary)
+                    Spacer(Modifier.width(10.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text(stringResource(R.string.continue_reading), fontWeight = FontWeight.Bold)
+                        Text("$name · ${formatDigits(position.ayah, ar)}", style = MaterialTheme.typography.bodyMedium)
+                    }
+                }
+            }
+            Spacer(Modifier.height(8.dp))
+        }
         val tiles = listOf(
             Tile(R.string.qibla, AppIcons.Kaaba, onQibla), Tile(R.string.adhkar_title, AppIcons.Adhkar, onAdhkar, "adhkar"),
             Tile(R.string.settings, Icons.Filled.Settings, onSettings), Tile(R.string.choose_city, AppIcons.City, onCity, "city_tile"),
             Tile(R.string.about_title, AppIcons.Info, onAbout, "about_tile"), Tile(R.string.soon_tasbih, AppIcons.Tasbih, onTasbih, "tasbih_tile"),
-            Tile(R.string.soon_duas, AppIcons.Duas, onDuas, "duas_tile"), Tile(R.string.soon_quran, AppIcons.Quran, null))
+            Tile(R.string.soon_duas, AppIcons.Duas, onDuas, "duas_tile"), Tile(R.string.soon_quran, AppIcons.Quran, { onQuran(0, 1) }, "quran_tile"))
         tiles.chunked(2).forEach { row -> Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) { row.forEach { tile ->
             Card(Modifier.weight(1f).padding(bottom = 8.dp).then(if (tile.action != null) Modifier.clickable(onClick = tile.action).testTag(tile.tag ?: "") else Modifier), shape = RoundedCornerShape(18.dp), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
                 Row(Modifier.fillMaxWidth().padding(14.dp), verticalAlignment = Alignment.CenterVertically) { Icon(tile.icon, null, tint = MaterialTheme.colorScheme.primary); Spacer(Modifier.width(10.dp)); Text(stringResource(tile.title), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold); if (tile.action == null) Text(" · " + stringResource(R.string.coming_soon), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }

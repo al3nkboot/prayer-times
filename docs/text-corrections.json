@@ -1,0 +1,12 @@
+{
+  "_doc": "Owner-approved text corrections applied by tools/build_assets.py after verbatim import. Each entry: {\"item\": \"<hisn item id, e.g. h128_0>\", \"find\": \"<exact substring in source>\", \"replace\": \"<approved text>\", \"source\": \"<where the approved wording comes from>\", \"approved\": \"<date / by @midroid5G>\"}. The build fails if 'find' is not found exactly once. Empty = pure verbatim dataset.",
+  "corrections": [
+    {
+      "item": "h128_0",
+      "find": "بِخَيْرً يَا رَحْمَانُ",
+      "replace": "بِخَيْرٍ يَا رَحْمَنُ",
+      "source": "https://www.hisnmuslim.com/api/ar/128.json (ARABIC_TEXT, copied programmatically)",
+      "approved": "2026-10-30 by @midroid5G"
+    }
+  ]
+}

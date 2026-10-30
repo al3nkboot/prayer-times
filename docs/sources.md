@@ -81,3 +81,11 @@ See `CREDITS.md` (generated chime, CC0). The 0.2.0 adhan recording was removed i
 - h128_0 (لرد كيد مردة الشياطين): dataset «بِخَيْرً يَا رَحْمَانُ», hisnmuslim.com «بِخَيْرٍ يَا رَحْمَنُ» — real diacritic/spelling difference, left as in the source dataset pending owner decision.
 - h56_1 (الدعاء للفرط): item boundaries split differently; wording identical.
 Item split/ordering differences also exist (e.g. chapter «الذكر عند الخروج من المنزل» lists items in a different order). 13 of 133 chapter titles are worded differently on hisnmuslim.com and were not auto-matched.
+
+### User-approved text corrections (`docs/text-corrections.json`)
+- 2026-10-30, approved by @midroid5G: item `h128_0` («ما يقول لرد كيد مردة الشياطين»): dataset wording «بِخَيْرً يَا رَحْمَانُ» replaced by the hisnmuslim.com wording «بِخَيْرٍ يَا رَحْمَنُ». The replacement string was copied programmatically from https://www.hisnmuslim.com/api/ar/128.json (`ARABIC_TEXT`) and applied by `tools/build_assets.py` (item marked `"corrected": true` in `hisn.json`).
+
+## Phase 3 Quran integrity check (2026-10-30)
+- Parsed Tanzil file: 114 surahs, 6236 ayahs; metadata ayah counts sum to 6236 (also asserted in `QuranRepoTest`).
+- Basmala: ayah 1 of all surahs except 1 and 9 starts with the 4 basmala words (95 and 97 carry a shadda on the first letter, so the app splits by words, not by string match).
+- 20 random ayahs (seed 3) compared with quran.com API v4 `text_uthmani` after removing diacritics/Quranic marks: 20/20 identical (16:49, 54:9, 44:45, 7:115, 26:99, 55:47, 37:96, 58:22, 52:24, 4:44, 55:61, 2:101, 37:56, 17:96, 46:3, 16:19, 11:98, 83:27, 37:65, 44:18). Against `text_imlaei` the differences are only Uthmani vs dictation spelling (e.g. السموت/السماوات).

@@ -207,11 +207,11 @@ private fun CategoryDetail(
     }
     val coroutineScope = androidx.compose.runtime.rememberCoroutineScope()
 
-    Box(modifier.fillMaxSize()) {
+    Column(modifier.fillMaxSize()) {
         LazyColumn(
             state = listState,
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(start = 12.dp, top = 12.dp, end = 12.dp, bottom = 112.dp),
+            modifier = Modifier.weight(1f).fillMaxWidth(),
+            contentPadding = PaddingValues(start = 12.dp, top = 12.dp, end = 12.dp, bottom = 12.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             itemsIndexed(items, key = { _, entry -> entry.id }) { index, entry ->
@@ -235,7 +235,9 @@ private fun CategoryDetail(
         }
         val current = items.getOrNull(currentIndex)
         if (current != null) {
-            FilledTonalButton(
+            Surface(tonalElevation = 4.dp, color = MaterialTheme.colorScheme.surface) {
+                Row(Modifier.fillMaxWidth().padding(vertical = 8.dp), horizontalArrangement = Arrangement.Center) {
+                    FilledTonalButton(
                 onClick = {
                     val nextCount = progress.increment(current.id, current.count)
                     refresh++
@@ -244,14 +246,16 @@ private fun CategoryDetail(
                         coroutineScope.launch { listState.animateScrollToItem(currentIndex + 1) }
                     }
                 },
-                modifier = Modifier.align(Alignment.BottomCenter).padding(16.dp)
-                    .size(88.dp).testTag("hisn_counter"),
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+                    .height(64.dp).testTag("hisn_counter"),
                 shape = CircleShape,
                 contentPadding = PaddingValues(8.dp),
-            ) {
+                    ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(progress.count(current.id).toString(), fontSize = 24.sp, fontWeight = FontWeight.Bold, maxLines = 1)
                     Text(stringResource(R.string.count_of_fmt, current.count), fontSize = 12.sp, maxLines = 1)
+                }
+                    }
                 }
             }
         }

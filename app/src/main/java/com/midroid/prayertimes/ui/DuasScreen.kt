@@ -137,7 +137,7 @@ private fun DuaList(
             Card(Modifier.fillMaxWidth().clickable { onSelect(entry) }) {
                 Column(Modifier.padding(16.dp)) {
                     Text(
-                        entry.text,
+                        localizeAyahOrnaments(entry.text, isArabic()),
                         modifier = Modifier.fillMaxWidth(),
                         fontFamily = ArabicText,
                         fontSize = 20.sp,
@@ -169,7 +169,7 @@ private fun DuaDetail(
     val favorite = progress.isFavorite(item.id)
     Column(modifier.fillMaxSize().padding(20.dp)) {
         Text(
-            item.text,
+            localizeAyahOrnaments(item.text, isArabic()),
             Modifier.fillMaxWidth(),
             fontFamily = ArabicText,
             fontSize = 26.sp,
@@ -204,5 +204,7 @@ private fun duasReference(item: HisnItem, context: Context): String {
     val from = item.from ?: 0
     val to = item.to ?: from
     val name = names.getOrNull(surah - 1) ?: surah.toString()
-    return if (from == to) context.getString(R.string.surah_ref_one, name, from) else context.getString(R.string.surah_ref, name, from, to)
+    val fromDigits = formatDigits(from, arabic)
+    val toDigits = formatDigits(to, arabic)
+    return if (from == to) context.getString(R.string.surah_ref_one, name, fromDigits) else context.getString(R.string.surah_ref, name, fromDigits, toDigits)
 }

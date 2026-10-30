@@ -12,6 +12,7 @@ import com.midroid.prayertimes.R
 import com.midroid.prayertimes.data.ThemeMode
 
 val ArabicText = FontFamily(Font(R.font.amiri_regular), Font(R.font.amiri_bold, androidx.compose.ui.text.font.FontWeight.Bold))
+val QuranText = FontFamily(Font(R.font.amiri_quran))
 
 val Teal = Color(0xFF0F4C4A)
 val TealLight = Color(0xFF1F7A72)

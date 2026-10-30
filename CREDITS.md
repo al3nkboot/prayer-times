@@ -52,3 +52,11 @@ was **removed** from the app in 1.0.1 and replaced by the default adhan above. I
 | Quranic duas & ruqyah verses, `app/src/main/assets/duas.json` | Tanzil Project, Quran text (Uthmani), https://tanzil.net | Tanzil licence: verbatim copies allowed, changes not allowed; notice kept in `duas.json` (`quran_notice`) and `docs/licenses/Tanzil-Quran-notice.txt` | Only surah:ayah references were selected by this project; ayah text is copied unmodified. |
 | Sunnah duas & ruqyah from the Sunnah | Same Hisn al-Muslim dataset (chapters listed in `docs/sources.md`) | MIT | Verbatim. |
 | Arabic font Amiri (`res/font/amiri_regular.ttf`, `amiri_bold.ttf`) | https://github.com/google/fonts/tree/main/ofl/amiri | SIL OFL 1.1 (`docs/licenses/Amiri-OFL.txt`) | Unmodified. |
+
+## Phase 3 — offline Quran
+| Item | Source | Licence | Notes |
+|---|---|---|---|
+| Quran text `app/src/main/assets/quran/quran-uthmani.txt` | Tanzil Project, Uthmani 1.1, https://tanzil.net (SHA-256 `6933e133dd56db778c801bf738848454e43648105a151e8d84d86a7cae39ec5f`) | Tanzil terms: verbatim copies only, attribution + link to tanzil.net; notice kept inside the file | File bundled byte-for-byte. The reader shows the basmala of 1:1 as a header and hides the first 4 words of ayah 1 (surahs ≠ 1, 9) at display time only. |
+| Quran metadata `app/src/main/assets/quran/quran-data.xml` | Tanzil metadata 1.0 (SHA-256 `8867c1d88191472adec9db694b3cd9f135b1a2ef580574d32cf888dcb22c5c7a`) | CC BY 3.0 (Tanzil.info) | Surah names, type, ayah counts, juz and hizb quarters. |
+| Quran font `res/font/amiri_quran.ttf` | Amiri Quran, https://github.com/google/fonts/tree/main/ofl/amiriquran | SIL OFL 1.1 (`docs/licenses/AmiriQuran-OFL.txt`) | Unmodified. KFGQPC fonts not used. |
+| Tafsir | — | — | Not included: Tafsir al-Muyassar (King Fahd Complex) has no explicit redistribution licence for app use found (QUL/GitHub copies carry no licence). |

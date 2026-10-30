@@ -35,7 +35,7 @@ import com.midroid.prayertimes.ui.SettingsScreen
 import kotlinx.coroutines.delay
 import java.time.ZonedDateTime
 
-enum class Screen { HOME, CITY, SETTINGS, EXACT, QIBLA, ABOUT, ADHKAR, TASBIH, DUAS }
+enum class Screen { HOME, CITY, SETTINGS, EXACT, QIBLA, ABOUT, ADHKAR, TASBIH, DUAS, QURAN }
 
 class MainActivity : AppCompatActivity() {
     @Volatile private var tasbihVisible = false
@@ -57,6 +57,8 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val s by repo.state.collectAsStateWithLifecycle()
             var screen by rememberSaveable { mutableStateOf(Screen.HOME) }
+            var quranStartSurah by rememberSaveable { mutableIntStateOf(0) }
+            var quranStartAyah by rememberSaveable { mutableIntStateOf(1) }
             var adhkarTab by rememberSaveable { mutableStateOf<Int?>(null) }
             LaunchedEffect(screen) { tasbihVisible = screen == Screen.TASBIH }
             LaunchedEffect(openTab.value) { openTab.value?.let { adhkarTab = it; screen = Screen.ADHKAR; openTab.value = null } }
@@ -92,7 +94,7 @@ class MainActivity : AppCompatActivity() {
                     BackHandler(screen != Screen.HOME) { screen = Screen.HOME }
                     when (screen) {
                         Screen.HOME -> HomeScreen(s, now, perms, onCity = { screen = Screen.CITY }, onSettings = { screen = Screen.SETTINGS },
-                            onExact = openExact, onGrantNotif = askNotif, onQibla = { screen = Screen.QIBLA }, onAdhkar = { screen = Screen.ADHKAR }, onTasbih = { screen = Screen.TASBIH }, onDuas = { screen = Screen.DUAS }, onAbout = { screen = Screen.ABOUT })
+                            onExact = openExact, onGrantNotif = askNotif, onQibla = { screen = Screen.QIBLA }, onAdhkar = { screen = Screen.ADHKAR }, onTasbih = { screen = Screen.TASBIH }, onDuas = { screen = Screen.DUAS }, onAbout = { screen = Screen.ABOUT }, onQuran = { surah, ayah -> quranStartSurah = surah; quranStartAyah = ayah; screen = Screen.QURAN })
                         Screen.SETTINGS -> SettingsScreen(s, perms, repo::update, onExact = { screen = Screen.EXACT }, onGrantNotif = askNotif, onAbout = { screen = Screen.ABOUT }, onDnd = openDnd) { screen = Screen.HOME }
                         Screen.ADHKAR -> com.midroid.prayertimes.ui.HisnScreen(
                             initialCategory = adhkarTab,
@@ -101,6 +103,7 @@ class MainActivity : AppCompatActivity() {
                         )
                         Screen.TASBIH -> com.midroid.prayertimes.ui.TasbihScreen(onBack = { screen = Screen.HOME }, onVolumeTap = { volumeTap = it })
                         Screen.DUAS -> com.midroid.prayertimes.ui.DuasScreen { screen = Screen.HOME }
+                        Screen.QURAN -> com.midroid.prayertimes.ui.QuranScreen(startSurah = quranStartSurah, startAyah = quranStartAyah, onBack = { screen = Screen.HOME })
                         Screen.ABOUT -> com.midroid.prayertimes.ui.AboutScreen(BuildConfig.VERSION_NAME) { screen = Screen.SETTINGS }
                         Screen.QIBLA -> com.midroid.prayertimes.ui.QiblaScreen(s.place) { screen = Screen.HOME }
                         Screen.EXACT -> ExactAlarmScreen(perms.exact, onOpenSettings = openExact) { screen = Screen.HOME }

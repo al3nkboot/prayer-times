@@ -14,6 +14,16 @@ cats=[]
 for i,(title,v) in enumerate(src.items()):
     items=[{'id':f'h{i}_{j}','text':a['Text'],'count':a['Count'],'ref':a['Reference']} for j,a in enumerate(v['Adhkar'])]
     cats.append({'id':f'h{i}','title':title,'icon':icon(title),'items':items})
+# Owner-approved corrections (docs/text-corrections.json), applied verbatim and logged.
+import os
+_cf=os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','docs','text-corrections.json')
+_corr=json.load(open(_cf,encoding='utf-8'))['corrections'] if os.path.exists(_cf) else []
+_byid={it['id']:it for c in cats for it in c['items']}
+for c in _corr:
+    it=_byid[c['item']]
+    if it['text'].count(c['find'])!=1: sys.exit(f"correction for {c['item']}: 'find' must occur exactly once")
+    it['text']=it['text'].replace(c['find'],c['replace']); it['corrected']=True
+    print('applied correction',c['item'])
 json.dump({'source':'asellam/HisnElMuslim@872764ca013116c905f7fc9c3dc972c27cd37d4a (MIT)','categories':cats},open(A+'hisn.json','w'),ensure_ascii=False,indent=0)
 # Quran duas (Tanzil Uthmani, verbatim). Selection of ayah references only.
 q={}

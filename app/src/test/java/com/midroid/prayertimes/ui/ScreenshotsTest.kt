@@ -3,15 +3,21 @@ package com.midroid.prayertimes.ui
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
+import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.performTextClearance
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.midroid.prayertimes.MainActivity
 import com.midroid.prayertimes.PrayerApp
 import com.midroid.prayertimes.data.ThemeMode
+import com.midroid.prayertimes.data.QuranPrefs
+import com.midroid.prayertimes.data.QuranReadingTheme
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -42,6 +48,12 @@ abstract class ShotsBase {
         File(dir, "$name.png").outputStream().use { bmp.compress(Bitmap.CompressFormat.PNG, 100, it) }
     }
     fun theme(t: ThemeMode) = rule.runOnUiThread { (rule.activity.application as PrayerApp).settings.update { it.copy(theme = t) } }
+    fun waitForQuranIndex() {
+        rule.waitUntil(10_000) { rule.onAllNodesWithTag("surah_1").fetchSemanticsNodes().isNotEmpty() }
+    }
+    fun readingTheme(theme: QuranReadingTheme) {
+        rule.runOnUiThread { QuranPrefs(rule.activity).readingTheme = theme }
+    }
 }
 
 @RunWith(AndroidJUnit4::class) @GraphicsMode(GraphicsMode.Mode.NATIVE)
@@ -152,4 +164,110 @@ class Phase2ArabicShots : ShotsBase() {
 @Config(sdk = [35], qualifiers = "en-w393dp-h852dp-xhdpi")
 class Phase2EnglishShots : ShotsBase() {
  @Test fun render(){theme(ThemeMode.LIGHT);shot("p2_home_en");rule.onNodeWithTag("adhkar").performScrollTo().performClick();rule.waitForIdle();shot("p2_hisn_list_en");rule.onNodeWithTag("hisn_cat_morning").performScrollTo().performClick();rule.waitForIdle();shot("p2_hisn_detail_en");rule.activity.runOnUiThread{rule.activity.onBackPressedDispatcher.onBackPressed()};rule.waitForIdle();rule.activity.runOnUiThread{rule.activity.onBackPressedDispatcher.onBackPressed()};rule.waitForIdle();rule.onNodeWithTag("tasbih_tile").performScrollTo().performClick();rule.waitForIdle();shot("p2_tasbih_en");rule.activity.runOnUiThread{rule.activity.onBackPressedDispatcher.onBackPressed()};rule.waitForIdle();rule.onNodeWithTag("duas_tile").performScrollTo().performClick();rule.waitForIdle();shot("p2_duas_en");rule.onNodeWithTag("duas_quran").performScrollTo().performClick();rule.waitForIdle();shot("p2_duas_quran_en")}
+}
+
+@RunWith(AndroidJUnit4::class) @GraphicsMode(GraphicsMode.Mode.NATIVE)
+@Config(sdk = [35], qualifiers = "ar-w393dp-h852dp-xhdpi")
+class Phase3ArabicShots : ShotsBase() {
+    @Test fun render() {
+        theme(ThemeMode.LIGHT)
+        rule.onNodeWithTag("adhkar").performScrollTo().performClick()
+        rule.waitForIdle()
+        rule.onNodeWithTag("hisn_cat_morning").performClick()
+        rule.waitForIdle()
+        shot("p3_hisn_detail_ar_light")
+        rule.activity.runOnUiThread { rule.activity.onBackPressedDispatcher.onBackPressed() }
+        rule.waitForIdle()
+        rule.activity.runOnUiThread { rule.activity.onBackPressedDispatcher.onBackPressed() }
+        rule.waitForIdle()
+        theme(ThemeMode.DARK)
+        rule.onNodeWithTag("adhkar").performScrollTo().performClick()
+        rule.waitForIdle()
+        rule.onNodeWithTag("hisn_cat_morning").performClick()
+        rule.waitForIdle()
+        shot("p3_hisn_detail_ar_dark")
+        rule.activity.runOnUiThread { rule.activity.onBackPressedDispatcher.onBackPressed() }
+        rule.waitForIdle()
+        rule.activity.runOnUiThread { rule.activity.onBackPressedDispatcher.onBackPressed() }
+        rule.waitForIdle()
+        theme(ThemeMode.LIGHT)
+
+        rule.onNodeWithTag("quran_tile").performScrollTo().performClick()
+        rule.waitForIdle()
+        waitForQuranIndex()
+        shot("p3_quran_index_ar_light")
+        rule.onNodeWithTag("quran_search").performClick()
+        val quran = com.midroid.prayertimes.data.QuranRepo.load(rule.activity)
+        rule.onNodeWithTag("quran_search").performTextInput(quran.ayah(1, 2)!!.text.split(Regex("\\s+")).take(4).joinToString(" "))
+        rule.waitForIdle()
+        shot("p3_quran_search_ar")
+        rule.onNodeWithTag("quran_search").performTextClearance()
+        rule.onNodeWithTag("quran_tab_surahs").assertExists()
+        rule.onNodeWithTag("quran_tab_surahs").performClick()
+        rule.onNodeWithTag("quran_tab_juz").performClick()
+        rule.waitForIdle()
+        shot("p3_quran_juz_ar_light"); rule.onNodeWithTag("quran_tab_surahs").performClick(); rule.waitForIdle()
+        waitForQuranIndex()
+        readingTheme(QuranReadingTheme.DEFAULT)
+        rule.onNodeWithTag("surah_1").performScrollTo().performClick()
+        rule.waitForIdle()
+        shot("p3_quran_reader_fatiha_ar_light")
+        rule.activity.runOnUiThread { rule.activity.onBackPressedDispatcher.onBackPressed() }
+        rule.waitForIdle()
+        readingTheme(QuranReadingTheme.DEFAULT)
+        rule.onNodeWithTag("surah_2").performScrollTo().performClick()
+        rule.waitForIdle()
+        rule.waitUntil(3000) {
+            com.midroid.prayertimes.data.QuranPrefs(rule.activity).lastRead() != null
+        }
+        shot("p3_quran_reader_baqarah_ar_light")
+        rule.activity.runOnUiThread { rule.activity.onBackPressedDispatcher.onBackPressed() }
+        rule.waitForIdle()
+        rule.activity.runOnUiThread { rule.activity.onBackPressedDispatcher.onBackPressed() }
+        rule.waitForIdle()
+        shot("p3_home_continue_ar_light")
+        rule.onNodeWithTag("duas_tile").performScrollTo().performClick()
+        rule.waitForIdle()
+        rule.onNodeWithTag("duas_quran").performClick()
+        rule.waitForIdle()
+        shot("p3_duas_quran_ar_light")
+
+        theme(ThemeMode.DARK)
+        rule.activity.runOnUiThread { rule.activity.onBackPressedDispatcher.onBackPressed() }
+        rule.waitForIdle()
+        rule.activity.runOnUiThread { rule.activity.onBackPressedDispatcher.onBackPressed() }
+        rule.waitForIdle()
+        rule.onNodeWithTag("quran_tile").performScrollTo().performClick()
+        rule.waitForIdle()
+        waitForQuranIndex()
+        shot("p3_quran_index_ar_dark")
+        readingTheme(QuranReadingTheme.NIGHT)
+        rule.onNodeWithTag("surah_1").performScrollTo().performClick()
+        rule.waitForIdle()
+        shot("p3_quran_reader_ar_dark")
+        rule.activity.runOnUiThread { rule.activity.onBackPressedDispatcher.onBackPressed() }
+        rule.waitForIdle()
+        theme(ThemeMode.LIGHT)
+        readingTheme(QuranReadingTheme.SEPIA)
+        rule.onNodeWithTag("surah_1").performScrollTo().performClick()
+        rule.waitForIdle()
+        shot("p3_quran_reader_ar_sepia")
+    }
+}
+
+@RunWith(AndroidJUnit4::class) @GraphicsMode(GraphicsMode.Mode.NATIVE)
+@Config(sdk = [35], qualifiers = "en-w393dp-h852dp-xhdpi")
+class Phase3EnglishShots : ShotsBase() {
+    @Test fun render() {
+        theme(ThemeMode.LIGHT)
+        shot("p3_home_en")
+        rule.onNodeWithTag("quran_tile").performScrollTo().performClick()
+        rule.waitForIdle()
+        waitForQuranIndex()
+        shot("p3_quran_index_en")
+        readingTheme(QuranReadingTheme.DEFAULT)
+        rule.onNodeWithTag("surah_1").performScrollTo().performClick()
+        rule.waitForIdle()
+        shot("p3_quran_reader_en")
+    }
 }
