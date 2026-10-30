@@ -76,7 +76,8 @@
     <string name="qibla_no_sensor">Your device has no compass sensor. Qibla is %1$d° from true north — use a compass or known landmarks.</string>
     <string name="qibla_waiting">Reading compass…</string>
     <string name="qibla_facing">You are facing the Qibla</string>
-    <string name="qibla_turn">Turn %1$d°</string>
+    <string name="qibla_turn_right">Turn %1$d° right</string>
+    <string name="qibla_turn_left">Turn %1$d° left</string>
     <string name="qibla_calibrate">Low compass accuracy: move the phone in a figure-8 a few times, away from metal and magnets.</string>
     <string name="qibla_tip">Hold the phone flat. Magnetic declination is corrected automatically.</string>
     <string name="credits">Credits &amp; licences</string>

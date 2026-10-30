@@ -76,7 +76,8 @@
     <string name="qibla_no_sensor">لا يحتوي جهازك على مستشعر بوصلة. اتجاه القبلة %1$d° من الشمال الحقيقي — استعن ببوصلة أو بمعالم معروفة.</string>
     <string name="qibla_waiting">جارٍ قراءة البوصلة…</string>
     <string name="qibla_facing">أنت باتجاه القبلة</string>
-    <string name="qibla_turn">استدر %1$d°</string>
+    <string name="qibla_turn_right">استدر %1$d° يميناً</string>
+    <string name="qibla_turn_left">استدر %1$d° يساراً</string>
     <string name="qibla_calibrate">دقة البوصلة منخفضة: حرّك الهاتف على شكل الرقم 8 عدة مرات وابتعد عن المعادن والمغناطيس.</string>
     <string name="qibla_tip">ضع الهاتف مستوياً. يُصحَّح الانحراف المغناطيسي تلقائياً.</string>
     <string name="credits">المصادر والتراخيص</string>
