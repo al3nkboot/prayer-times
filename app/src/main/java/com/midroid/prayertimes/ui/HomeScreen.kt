@@ -38,7 +38,7 @@ import java.time.ZonedDateTime
 data class Perms(val notifications: Boolean, val exact: Boolean, val dnd: Boolean = true)
 
 @Composable
-fun HomeScreen(s: AppSettings, now: ZonedDateTime, perms: Perms, onCity: () -> Unit, onSettings: () -> Unit, onExact: () -> Unit, onGrantNotif: () -> Unit, onQibla: () -> Unit = {}, onAdhkar: () -> Unit = {}, onAbout: () -> Unit = {}) {
+fun HomeScreen(s: AppSettings, now: ZonedDateTime, perms: Perms, onCity: () -> Unit, onSettings: () -> Unit, onExact: () -> Unit, onGrantNotif: () -> Unit, onQibla: () -> Unit = {}, onAdhkar: () -> Unit = {}, onTasbih: () -> Unit = {}, onDuas: () -> Unit = {}, onAbout: () -> Unit = {}) {
     val st = remember(s, now.withSecond(0).withNano(0)) { PrayerEngine.now(s.place, now, s.calc) }
     val remaining = Duration.between(now, st.nextAt)
     val ar = isArabic()
@@ -89,8 +89,8 @@ fun HomeScreen(s: AppSettings, now: ZonedDateTime, perms: Perms, onCity: () -> U
         val tiles = listOf(
             Tile(R.string.qibla, AppIcons.Kaaba, onQibla), Tile(R.string.adhkar_title, AppIcons.Adhkar, onAdhkar, "adhkar"),
             Tile(R.string.settings, Icons.Filled.Settings, onSettings), Tile(R.string.choose_city, AppIcons.City, onCity, "city_tile"),
-            Tile(R.string.about_title, AppIcons.Info, onAbout, "about_tile"), Tile(R.string.soon_tasbih, AppIcons.Tasbih, null),
-            Tile(R.string.soon_duas, AppIcons.Duas, null), Tile(R.string.soon_quran, AppIcons.Quran, null))
+            Tile(R.string.about_title, AppIcons.Info, onAbout, "about_tile"), Tile(R.string.soon_tasbih, AppIcons.Tasbih, onTasbih, "tasbih_tile"),
+            Tile(R.string.soon_duas, AppIcons.Duas, onDuas, "duas_tile"), Tile(R.string.soon_quran, AppIcons.Quran, null))
         tiles.chunked(2).forEach { row -> Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) { row.forEach { tile ->
             Card(Modifier.weight(1f).padding(bottom = 8.dp).then(if (tile.action != null) Modifier.clickable(onClick = tile.action).testTag(tile.tag ?: "") else Modifier), shape = RoundedCornerShape(18.dp), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
                 Row(Modifier.fillMaxWidth().padding(14.dp), verticalAlignment = Alignment.CenterVertically) { Icon(tile.icon, null, tint = MaterialTheme.colorScheme.primary); Spacer(Modifier.width(10.dp)); Text(stringResource(tile.title), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold); if (tile.action == null) Text(" · " + stringResource(R.string.coming_soon), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }

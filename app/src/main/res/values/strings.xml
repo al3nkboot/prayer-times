@@ -139,7 +139,7 @@
     <string name="coming_soon">قريباً</string>
     <string name="soon_tasbih">المسبحة</string>
     <string name="soon_duas">الأدعية</string>
-    <string name="soon_quran">القرآن الكريم</string>
+    <string name="soon_quran">القرآن</string>
     <string name="tab_compass">البوصلة</string>
     <string name="tab_sun">الشمس والظل</string>
     <string name="sun_angle">الزاوية بين الشمس والقبلة: %1$d°</string>
@@ -149,4 +149,28 @@
     <string name="zenith_explain">حوّل الوقت إلى توقيتك المحلي. في هذه اللحظات تشير الشمس مباشرة إلى الكعبة؛ قف عمودياً ولاحظ ظلك، ثم واجه الاتجاه المعاكس للظل.</string>
     <string name="sun_unavailable">تعذّر حساب موقع الشمس لهذا الوقت.</string>
     <string name="north">ش</string><string name="east">ق</string><string name="south">ج</string><string name="west">غ</string>
+    <string name="favorites">المفضلة</string>
+    <string name="reference">المرجع</string>
+    <string name="tasbih">المسبحة</string>
+    <string name="duas_title">الأدعية</string>
+    <string name="hisn_title">حصن المسلم</string>
+    <string name="hisn_subtitle">حصن المسلم</string>
+    <string name="search_content">ابحث في الأذكار</string>
+    <string name="count_of_fmt">من %1$d</string>
+    <string name="copy">نسخ</string>
+    <string name="custom_dhikr">ذكر مخصص</string>
+    <string name="target">الهدف</string>
+    <string name="today_count">اليوم:</string>
+    <string name="all_time">الإجمالي:</string>
+    <string name="cancel">إلغاء</string>
+    <string name="sources_licences">المصادر والتراخيص</string>
+    <string name="hisn_credit">بيانات حصن المسلم asellam/HisnElMuslim — MIT</string>
+    <string name="quran_credit">نص القرآن: مشروع تنزيل tanzil.net — CC BY 3.0</string>
+    <string name="font_credit">خط Amiri — SIL OFL 1.1</string>
+    <string name="duas_quran_title">أدعية من القرآن</string>
+    <string name="duas_sunnah_title">أدعية من السنة</string>
+    <string name="duas_ruqyah_title">الرقية الشرعية</string>
+    <string name="surah_ref">سورة %1$s %2$d-%3$d</string>
+    <string name="surah_ref_one">سورة %1$s %2$d</string>
+    <string name="volume_count">العدّ بأزرار الصوت</string>
 </resources>

@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
@@ -116,13 +117,39 @@ class ScreenshotsAdhkarTest : ShotsBase() {
         theme(ThemeMode.LIGHT)
         rule.onNodeWithTag("adhkar").performScrollTo(); shot("22_home_adhkar_button_ar")
         rule.onNodeWithTag("adhkar").performClick()
-        rule.onNodeWithTag("count_76").performClick(); shot("19_adhkar_morning_ar")
-        rule.onNodeWithTag("tab_1").performClick(); shot("20_adhkar_evening_ar")
+        rule.waitForIdle()
+        rule.onNodeWithTag("hisn_cat_morning").performClick(); rule.onNodeWithTag("hisn_counter").performClick(); shot("19_adhkar_morning_ar")
+        rule.onNodeWithContentDescription("رجوع").performClick()
+        rule.waitForIdle()
+        rule.onNodeWithTag("hisn_cat_evening").performScrollTo()
+        rule.onNodeWithTag("hisn_cat_evening").performClick(); shot("20_adhkar_evening_ar")
         rule.activity.runOnUiThread { rule.activity.onBackPressedDispatcher.onBackPressed() }
+        rule.waitForIdle(); rule.activity.runOnUiThread { rule.activity.onBackPressedDispatcher.onBackPressed() }; rule.waitForIdle()
         rule.onNodeWithTag("settings").performClick()
         rule.onNodeWithTag("auto_silent").performScrollTo().performClick()
         rule.onNodeWithTag("adhkar_am").performScrollTo().performClick()
         rule.onNodeWithTag("adhkar_pm").performScrollTo().performClick()
         rule.onNodeWithTag("auto_silent").performScrollTo(); shot("21_settings_auto_silent_ar")
     }
+}
+
+@RunWith(AndroidJUnit4::class) @GraphicsMode(GraphicsMode.Mode.NATIVE)
+@Config(sdk = [35], qualifiers = "ar-w393dp-h852dp-xhdpi")
+class Phase2ArabicShots : ShotsBase() {
+ @Test fun render(){
+  theme(ThemeMode.LIGHT);shot("p2_home_ar_light")
+  rule.onNodeWithTag("adhkar").performScrollTo().performClick();rule.waitForIdle();shot("p2_hisn_list_ar_light")
+  rule.onNodeWithTag("hisn_cat_morning").performScrollTo().performClick();rule.waitForIdle();shot("p2_hisn_detail_ar_light")
+  rule.activity.runOnUiThread{rule.activity.onBackPressedDispatcher.onBackPressed()};rule.waitForIdle()
+  rule.activity.runOnUiThread{rule.activity.onBackPressedDispatcher.onBackPressed()};rule.waitForIdle()
+  theme(ThemeMode.DARK);rule.onNodeWithTag("adhkar").performScrollTo().performClick();rule.waitForIdle();shot("p2_hisn_list_ar_dark");rule.onNodeWithTag("hisn_cat_morning").performScrollTo().performClick();rule.waitForIdle();shot("p2_hisn_detail_ar_dark")
+  rule.activity.runOnUiThread{rule.activity.onBackPressedDispatcher.onBackPressed()};rule.waitForIdle();rule.activity.runOnUiThread{rule.activity.onBackPressedDispatcher.onBackPressed()};rule.waitForIdle();rule.onNodeWithTag("tasbih_tile").performScrollTo().performClick();rule.waitForIdle();shot("p2_tasbih_ar_dark")
+  rule.activity.runOnUiThread{rule.activity.onBackPressedDispatcher.onBackPressed()};rule.waitForIdle();theme(ThemeMode.LIGHT);rule.onNodeWithTag("tasbih_tile").performScrollTo().performClick();rule.waitForIdle();shot("p2_tasbih_ar_light")
+  rule.activity.runOnUiThread{rule.activity.onBackPressedDispatcher.onBackPressed()};rule.waitForIdle();rule.onNodeWithTag("duas_tile").performScrollTo().performClick();rule.waitForIdle();shot("p2_duas_ar_light");rule.onNodeWithTag("duas_quran").performScrollTo().performClick();rule.waitForIdle();shot("p2_duas_quran_ar_light");rule.activity.runOnUiThread{rule.activity.onBackPressedDispatcher.onBackPressed()};rule.waitForIdle();rule.activity.runOnUiThread{rule.activity.onBackPressedDispatcher.onBackPressed()};rule.waitForIdle();theme(ThemeMode.DARK);rule.onNodeWithTag("duas_tile").performScrollTo().performClick();rule.waitForIdle();shot("p2_duas_ar_dark")
+ }
+}
+@RunWith(AndroidJUnit4::class) @GraphicsMode(GraphicsMode.Mode.NATIVE)
+@Config(sdk = [35], qualifiers = "en-w393dp-h852dp-xhdpi")
+class Phase2EnglishShots : ShotsBase() {
+ @Test fun render(){theme(ThemeMode.LIGHT);shot("p2_home_en");rule.onNodeWithTag("adhkar").performScrollTo().performClick();rule.waitForIdle();shot("p2_hisn_list_en");rule.onNodeWithTag("hisn_cat_morning").performScrollTo().performClick();rule.waitForIdle();shot("p2_hisn_detail_en");rule.activity.runOnUiThread{rule.activity.onBackPressedDispatcher.onBackPressed()};rule.waitForIdle();rule.activity.runOnUiThread{rule.activity.onBackPressedDispatcher.onBackPressed()};rule.waitForIdle();rule.onNodeWithTag("tasbih_tile").performScrollTo().performClick();rule.waitForIdle();shot("p2_tasbih_en");rule.activity.runOnUiThread{rule.activity.onBackPressedDispatcher.onBackPressed()};rule.waitForIdle();rule.onNodeWithTag("duas_tile").performScrollTo().performClick();rule.waitForIdle();shot("p2_duas_en");rule.onNodeWithTag("duas_quran").performScrollTo().performClick();rule.waitForIdle();shot("p2_duas_quran_en")}
 }

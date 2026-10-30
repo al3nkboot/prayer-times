@@ -69,3 +69,15 @@ See `CREDITS.md` (generated chime, CC0). The 0.2.0 adhan recording was removed i
 | duqm | Duqm | 19.66207 | 57.70367 | [288471](https://www.geonames.org/288471) | PPL | Al Duqm |
 | mahout | Maḩawt | 20.76133 | 58.28952 | [11814626](https://www.geonames.org/11814626) | PPL | Mhut |
 | jazer | Al Jāzir | 18.545 | 56.36 | [12215982](https://www.geonames.org/12215982) | ADM2 | Al-Jazir |
+## Phase 2 religious text sources
+- Hisn al-Muslim: asellam/HisnElMuslim @ 872764ca (MIT). Built into `app/src/main/assets/hisn.json` by `tools/build_assets.py` (verbatim).
+- Quran: Tanzil Uthmani text (tanzil.net, verbatim-only licence). Quranic duas selected by reference: 2:127-128, 2:201, 2:250, 2:286, 3:8-9, 3:16, 3:53, 3:147, 3:191-194, 7:23, 7:47, 7:126, 10:85-86, 14:40-41, 17:24, 17:80, 18:10, 20:25-28, 20:114, 21:83, 21:87, 21:89, 23:97-98, 23:109, 23:118, 25:65-66, 25:74, 27:19, 28:16, 28:24, 40:7-9, 46:15, 59:10, 60:4-5, 66:8, 71:28. Full ayahs are shown.
+- Ruqyah (Quran): 1:1-7, 2:255, 2:285-286, 112, 113, 114. Ruqyah (Sunnah): Hisn chapters (0-based index) 48, 49, 124, 125.
+- Sunnah duas: Hisn chapters (0-based index) 23, 34, 35, 40, 41, 43, 44, 129.
+
+### Spot-check (2026-10-30) against https://www.hisnmuslim.com/api/ar/<id>.json
+20 random chapters (seed 7), 36 items, compared after removing diacritics and punctuation: 33 exact; 3 differ:
+- h117_0 (بين الركنين, Q 2:201): «ءَاتِنَا» vs «آتِنَا» — orthography only.
+- h128_0 (لرد كيد مردة الشياطين): dataset «بِخَيْرً يَا رَحْمَانُ», hisnmuslim.com «بِخَيْرٍ يَا رَحْمَنُ» — real diacritic/spelling difference, left as in the source dataset pending owner decision.
+- h56_1 (الدعاء للفرط): item boundaries split differently; wording identical.
+Item split/ordering differences also exist (e.g. chapter «الذكر عند الخروج من المنزل» lists items in a different order). 13 of 133 chapter titles are worded differently on hisnmuslim.com and were not auto-matched.

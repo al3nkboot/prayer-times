@@ -42,4 +42,9 @@ object AppIcons {
     val Asr = icon("Asr", listOf("M3 19h18 M6 19a6 6 0 0 1 12 0 M12 3v3 M4.5 8l2 2 M19.5 8l-2 2 M3 13h3 M18 13h3"))
     val Maghrib = icon("Maghrib", listOf("M3 17h18 M6 17a6 6 0 0 1 12 0 M12 3v3 M4.5 8l2 2 M19.5 8l-2 2 M4 21h16"))
     val Isha = icon("Isha", listOf("M19 4a8 8 0 1 0 1 14A8 8 0 0 1 19 4Z M5 5l.5 1.5L7 7l-1.5.5L5 9l-.5-1.5L3 7l1.5-.5L5 5Z"))
+    val Morning = icon("Morning", listOf("M12 3v3 M5.6 5.6l2.1 2.1 M3 12h3 M18 12h3 M12 12a6 6 0 1 0 0 12 6 6 0 0 0 0-12Z"))
+    val Evening = icon("Evening", listOf("M19 4a8 8 0 1 0 1 14A8 8 0 0 1 19 4Z"))
+    val Sleep = icon("Sleep", listOf("M4 18a8 8 0 0 1 16 0 M7 8h.1 M12 5h.1 M17 8h.1"))
+    val Wake = Morning; val Mosque = Kaaba; val Prayer = Duas; val Water = icon("Water",listOf("M12 2C9 7 5 11 5 15a7 7 0 0 0 14 0c0-4-4-8-7-13Z")); val Travel=icon("Travel",listOf("M2 13 22 7l-8 8-2 7-3-5-7-4Z")); val Food=icon("Food",listOf("M4 5h16 M5 5c0 9 14 9 14 0 M12 15v5 M8 21h8")); val Repent=Duas; val Rain=icon("Rain",listOf("M5 14a5 5 0 0 1 1-10 7 7 0 0 1 13 3 4 4 0 0 1 0 8 M8 18l-1 3 M13 18l-1 3 M18 18l-1 3")); val Health=icon("Health",listOf("M12 21S3 16 3 9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 7-9 12-9 12Z")); val Grave=icon("Grave",listOf("M4 21h16 M6 21V9a6 6 0 0 1 12 0v12")); val Cloth=icon("Cloth",listOf("M8 4 4 7l3 4 2-1v11h6V10l2 1 3-4-4-3c-1 3-7 3-8 0Z")); val Home=City
+    val Copy = icon("Copy", listOf("M8 8V4h12v12h-4 M4 8h12v12H4z"))
 }

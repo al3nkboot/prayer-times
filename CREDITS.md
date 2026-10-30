@@ -44,3 +44,11 @@ was **removed** from the app in 1.0.1 and replaced by the default adhan above. I
 | Reference (تخريج) per dhikr | The book's footnotes as published in al-Maktaba al-Shamela, book 31307, pages 54–67 (https://shamela.ws/book/31307/54 …/67, fetched 2026-10-18) | Footnote copied verbatim; where the footnote also states the virtue, it is kept as in the book. No. 92 has two footnotes (ten times / once when lazy), both kept. |
 | Repeat counts | From the counts written in the text («ثلاث مرات»، «سبع مرات»، «مائة مرة»…) | The API's `REPEAT` field says 1 for no. 83 although the text says «سبع مرات»; the app uses 7. |
 | Morning/evening split | Per the book's own notes | Morning tab omits no. 97 («إذا أمسى»); evening tab omits nos. 93, 94, 95 («إذا أصبح»). |
+
+## Phase 2 content (Hisn al-Muslim full, Duas, Arabic font)
+| Item | Source | Licence | Notes |
+|---|---|---|---|
+| Full Hisn al-Muslim, 133 chapters / 302 items, `app/src/main/assets/hisn.json` | https://github.com/asellam/HisnElMuslim commit `872764ca013116c905f7fc9c3dc972c27cd37d4a` (`hisn.json`), © 2021 Abdellah SELLAM | MIT (`docs/licenses/HisnElMuslim-MIT.txt`) | Text, count and reference copied verbatim by `tools/build_assets.py`; audio URLs dropped (no internet). Morning/evening chapters in the app keep using the existing verified `adhkar.json`. |
+| Quranic duas & ruqyah verses, `app/src/main/assets/duas.json` | Tanzil Project, Quran text (Uthmani), https://tanzil.net | Tanzil licence: verbatim copies allowed, changes not allowed; notice kept in `duas.json` (`quran_notice`) and `docs/licenses/Tanzil-Quran-notice.txt` | Only surah:ayah references were selected by this project; ayah text is copied unmodified. |
+| Sunnah duas & ruqyah from the Sunnah | Same Hisn al-Muslim dataset (chapters listed in `docs/sources.md`) | MIT | Verbatim. |
+| Arabic font Amiri (`res/font/amiri_regular.ttf`, `amiri_bold.ttf`) | https://github.com/google/fonts/tree/main/ofl/amiri | SIL OFL 1.1 (`docs/licenses/Amiri-OFL.txt`) | Unmodified. |

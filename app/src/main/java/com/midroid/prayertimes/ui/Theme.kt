@@ -6,7 +6,12 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import com.midroid.prayertimes.R
 import com.midroid.prayertimes.data.ThemeMode
+
+val ArabicText = FontFamily(Font(R.font.amiri_regular), Font(R.font.amiri_bold, androidx.compose.ui.text.font.FontWeight.Bold))
 
 val Teal = Color(0xFF0F4C4A)
 val TealLight = Color(0xFF1F7A72)

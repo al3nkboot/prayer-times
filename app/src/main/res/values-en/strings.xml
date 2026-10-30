@@ -149,4 +149,28 @@
     <string name="zenith_explain">Convert each time to your local timezone. At these moments the sun is directly above the Kaaba. Stand a vertical object upright and face opposite its shadow.</string>
     <string name="sun_unavailable">Could not calculate the sun position for this time.</string>
     <string name="north">N</string><string name="east">E</string><string name="south">S</string><string name="west">W</string>
+    <string name="favorites">Favorites</string>
+    <string name="reference">Reference</string>
+    <string name="tasbih">Tasbih</string>
+    <string name="duas_title">Duas</string>
+    <string name="hisn_title">Hisn al-Muslim</string>
+    <string name="hisn_subtitle">Hisn al-Muslim</string>
+    <string name="search_content">Search adhkar</string>
+    <string name="count_of_fmt">of %1$d</string>
+    <string name="copy">Copy</string>
+    <string name="custom_dhikr">Custom dhikr</string>
+    <string name="target">Target</string>
+    <string name="today_count">Today:</string>
+    <string name="all_time">All time:</string>
+    <string name="cancel">Cancel</string>
+    <string name="sources_licences">Sources &amp; licences</string>
+    <string name="hisn_credit">Hisn al-Muslim dataset asellam/HisnElMuslim — MIT</string>
+    <string name="quran_credit">Quran text: Tanzil Project tanzil.net — CC BY 3.0</string>
+    <string name="font_credit">Amiri font — SIL OFL 1.1</string>
+    <string name="duas_quran_title">Quranic duas</string>
+    <string name="duas_sunnah_title">Sunnah duas</string>
+    <string name="duas_ruqyah_title">Ruqyah</string>
+    <string name="surah_ref">Surah %1$s %2$d-%3$d</string>
+    <string name="surah_ref_one">Surah %1$s %2$d</string>
+    <string name="volume_count">Count with volume keys</string>
 </resources>

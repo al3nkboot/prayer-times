@@ -47,6 +47,7 @@ fun AboutScreen(version: String, onBack: () -> Unit) {
             Link(stringResource(R.string.source_link)) { uri.openUri(ADHAN_URL) }
             Link("بيت المسلم - Muslim House — $CHANNEL_URL") { uri.openUri(CHANNEL_URL) }
             Head(stringResource(R.string.other_credits)); Body(stringResource(R.string.other_credits_body))
+            Head(stringResource(R.string.sources_licences)); Body(stringResource(R.string.hisn_credit)); Body(stringResource(R.string.quran_credit)); Body(stringResource(R.string.font_credit))
             Link("adhan-java — MIT — github.com/batoulapps/adhan-java") { uri.openUri("https://github.com/batoulapps/adhan-java") }
             Link("GeoNames — CC BY 4.0 — geonames.org") { uri.openUri("https://www.geonames.org/") }
         }

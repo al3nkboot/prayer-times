@@ -35,9 +35,15 @@ import com.midroid.prayertimes.ui.SettingsScreen
 import kotlinx.coroutines.delay
 import java.time.ZonedDateTime
 
-enum class Screen { HOME, CITY, SETTINGS, EXACT, QIBLA, ABOUT, ADHKAR }
+enum class Screen { HOME, CITY, SETTINGS, EXACT, QIBLA, ABOUT, ADHKAR, TASBIH, DUAS }
 
 class MainActivity : AppCompatActivity() {
+    @Volatile private var tasbihVisible = false
+    @Volatile var volumeTap: (() -> Unit)? = null
+    override fun dispatchKeyEvent(event: android.view.KeyEvent): Boolean {
+        if (tasbihVisible && (event.keyCode == android.view.KeyEvent.KEYCODE_VOLUME_UP || event.keyCode == android.view.KeyEvent.KEYCODE_VOLUME_DOWN) && event.action == android.view.KeyEvent.ACTION_DOWN && getSharedPreferences("tasbih", MODE_PRIVATE).getBoolean("volume_count", false)) { volumeTap?.invoke(); return true }
+        return super.dispatchKeyEvent(event)
+    }
     /** adhkar tab requested by a reminder notification, consumed by the composition */
     private val openTab = mutableStateOf<Int?>(null)
     override fun onNewIntent(intent: Intent) { super.onNewIntent(intent); setIntent(intent); readTab(intent) }
@@ -51,7 +57,8 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val s by repo.state.collectAsStateWithLifecycle()
             var screen by rememberSaveable { mutableStateOf(Screen.HOME) }
-            var adhkarTab by rememberSaveable { mutableStateOf(0) }
+            var adhkarTab by rememberSaveable { mutableStateOf<Int?>(null) }
+            LaunchedEffect(screen) { tasbihVisible = screen == Screen.TASBIH }
             LaunchedEffect(openTab.value) { openTab.value?.let { adhkarTab = it; screen = Screen.ADHKAR; openTab.value = null } }
             var now by remember { mutableStateOf(ZonedDateTime.now(PrayerApp.clock)) }
             LaunchedEffect(Unit) {
@@ -85,9 +92,15 @@ class MainActivity : AppCompatActivity() {
                     BackHandler(screen != Screen.HOME) { screen = Screen.HOME }
                     when (screen) {
                         Screen.HOME -> HomeScreen(s, now, perms, onCity = { screen = Screen.CITY }, onSettings = { screen = Screen.SETTINGS },
-                            onExact = openExact, onGrantNotif = askNotif, onQibla = { screen = Screen.QIBLA }, onAdhkar = { screen = Screen.ADHKAR }, onAbout = { screen = Screen.ABOUT })
+                            onExact = openExact, onGrantNotif = askNotif, onQibla = { screen = Screen.QIBLA }, onAdhkar = { screen = Screen.ADHKAR }, onTasbih = { screen = Screen.TASBIH }, onDuas = { screen = Screen.DUAS }, onAbout = { screen = Screen.ABOUT })
                         Screen.SETTINGS -> SettingsScreen(s, perms, repo::update, onExact = { screen = Screen.EXACT }, onGrantNotif = askNotif, onAbout = { screen = Screen.ABOUT }, onDnd = openDnd) { screen = Screen.HOME }
-                        Screen.ADHKAR -> com.midroid.prayertimes.ui.AdhkarScreen(adhkarTab, { adhkarTab = it }) { screen = Screen.HOME }
+                        Screen.ADHKAR -> com.midroid.prayertimes.ui.HisnScreen(
+                            initialCategory = adhkarTab,
+                            onInitialCategoryConsumed = { adhkarTab = null },
+                            onBack = { screen = Screen.HOME }
+                        )
+                        Screen.TASBIH -> com.midroid.prayertimes.ui.TasbihScreen(onBack = { screen = Screen.HOME }, onVolumeTap = { volumeTap = it })
+                        Screen.DUAS -> com.midroid.prayertimes.ui.DuasScreen { screen = Screen.HOME }
                         Screen.ABOUT -> com.midroid.prayertimes.ui.AboutScreen(BuildConfig.VERSION_NAME) { screen = Screen.SETTINGS }
                         Screen.QIBLA -> com.midroid.prayertimes.ui.QiblaScreen(s.place) { screen = Screen.HOME }
                         Screen.EXACT -> ExactAlarmScreen(perms.exact, onOpenSettings = openExact) { screen = Screen.HOME }
