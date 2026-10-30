@@ -132,4 +132,20 @@
     <string name="open_settings">Open settings</string>
     <string name="auto_silent_note">Starts one minute after Fajr, Dhuhr, Asr, Maghrib and Isha, then restores the ringer as it was. If you change the ringer yourself meanwhile, the app leaves it alone.</string>
     <string name="count_fmt">%1$d of %2$d</string>
+    <string name="night_midnight">Midnight: %1$s</string>
+    <string name="night_last_third">Last third begins: %1$s</string>
+    <string name="home_sections">Explore</string>
+    <string name="coming_soon">Coming soon</string>
+    <string name="soon_tasbih">Tasbih</string>
+    <string name="soon_duas">Duas</string>
+    <string name="soon_quran">Quran</string>
+    <string name="tab_compass">Compass</string>
+    <string name="tab_sun">Sun &amp; Shadow</string>
+    <string name="sun_angle">Angle between sun and Qibla: %1$d°</string>
+    <string name="sun_altitude">Sun altitude %1$d° · azimuth %2$d°</string>
+    <string name="zenith_title">Kaaba solar zenith moments</string>
+    <string name="zenith_dates">May 27 and 28, 12:18 PM · July 15 and 16, 12:27 PM (Makkah time)</string>
+    <string name="zenith_explain">Convert each time to your local timezone. At these moments the sun is directly above the Kaaba. Stand a vertical object upright and face opposite its shadow.</string>
+    <string name="sun_unavailable">Could not calculate the sun position for this time.</string>
+    <string name="north">N</string><string name="east">E</string><string name="south">S</string><string name="west">W</string>
 </resources>

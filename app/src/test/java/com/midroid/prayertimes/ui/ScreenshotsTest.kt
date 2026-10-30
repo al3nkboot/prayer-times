@@ -47,8 +47,8 @@ abstract class ShotsBase {
 @Config(sdk = [35], qualifiers = "ar-w393dp-h852dp-xhdpi")
 class ScreenshotsArTest : ShotsBase() {
     @Test fun render() {
-        theme(ThemeMode.LIGHT); shot("01_home_ar_light")
-        theme(ThemeMode.DARK); shot("02_home_ar_dark")
+        theme(ThemeMode.LIGHT); shot("01_home_ar_light"); shot("20_home_pro_ar_light")
+        theme(ThemeMode.DARK); shot("02_home_ar_dark"); shot("21_home_pro_ar_dark")
         theme(ThemeMode.LIGHT)
         rule.onNodeWithTag("city").performClick(); shot("03_city_picker_ar")
         rule.activity.runOnUiThread { rule.activity.onBackPressedDispatcher.onBackPressed() }
@@ -78,7 +78,8 @@ class ScreenshotsExactTest : ShotsBase() {
 @Config(sdk = [35], qualifiers = "en-w393dp-h852dp-xhdpi")
 class ScreenshotsEnTest : ShotsBase() {
     @Test fun render() {
-        theme(ThemeMode.LIGHT); shot("05_home_en_light")
+        theme(ThemeMode.LIGHT); shot("05_home_en_light"); shot("25_home_pro_en")
+        rule.onNodeWithTag("qibla").performClick(); shot("26_qibla_en"); rule.onNodeWithTag("tab_sun").performClick(); shot("27_qibla_sun_en"); rule.activity.runOnUiThread { rule.activity.onBackPressedDispatcher.onBackPressed() }
         rule.onNodeWithTag("settings").performClick()
         rule.onNodeWithTag("about").performScrollTo().performClick(); shot("17_about_en")
     }
@@ -90,7 +91,8 @@ class ScreenshotsQiblaTest : ShotsBase() {
     @Test fun render() {
         theme(ThemeMode.LIGHT)
         QiblaSensorOverride.heading = Heading(220.0, lowAccuracy = true)
-        rule.onNodeWithTag("qibla").performClick(); shot("08_qibla_turn_lowaccuracy_ar")
+        rule.onNodeWithTag("qibla").performClick(); shot("08_qibla_turn_lowaccuracy_ar"); shot("22_qibla_ar_light")
+        rule.onNodeWithTag("tab_sun").performClick(); shot("24_qibla_sun_ar"); rule.activity.runOnUiThread { rule.activity.onBackPressedDispatcher.onBackPressed() }
         rule.activity.runOnUiThread { rule.activity.onBackPressedDispatcher.onBackPressed() }
         QiblaSensorOverride.heading = Heading(261.0, lowAccuracy = false)
         rule.onNodeWithTag("qibla").performClick(); shot("09_qibla_facing_ar")
@@ -101,7 +103,8 @@ class ScreenshotsQiblaTest : ShotsBase() {
         rule.activity.runOnUiThread { rule.activity.onBackPressedDispatcher.onBackPressed() }
         theme(ThemeMode.DARK)
         QiblaSensorOverride.heading = Heading(261.0, lowAccuracy = false)
-        rule.onNodeWithTag("qibla").performClick(); shot("11_qibla_facing_ar_dark")
+        rule.onNodeWithTag("qibla").performClick(); shot("11_qibla_facing_ar_dark"); shot("23_qibla_ar_dark")
+        rule.onNodeWithTag("tab_sun").performClick()
         QiblaSensorOverride.heading = null
     }
 }
